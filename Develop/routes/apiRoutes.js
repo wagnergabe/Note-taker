@@ -38,5 +38,23 @@ app.post("/notes", (req, res) => {
   });
 });
 
+//Delete Note
+app.delete("/notes/:id", (req, res) => {
+  let selID = parseInt(req.params.id);
+
+  for (let i = 0; i < notesInput.length; i++) {
+    if (selID === notesInput[i].id) {
+      notesInput.splice(i, 1);
+      let noteJSON = JSON.stringify(notesInput, null, 2);
+
+      writeFileAsync("db/db.json", noteJSON).then(function () {
+        console.log("Note has been deleted.");
+      });
+    }
+  }
+  res.json(notesInput);
+});
+
+//Source app.delete function https://stackoverflow.com/questions/65015000/how-do-i-use-express-js-app-delete-to-remove-a-specific-object-from-an-array
 
 module.exports = app;
