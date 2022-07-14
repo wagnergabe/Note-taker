@@ -3,6 +3,7 @@ const util = require("util");
 const app = require("express").Router();
 const writeFileAsync = util.promisify(fs.writeFile);
 const readFileAsync = util.promisify(fs.readFile);
+var notesInput;
 
 
 app.get("/notes", (req, res) => {
@@ -14,3 +15,5 @@ app.get("/notes", (req, res) => {
     res.json(notesData);
   });
 });
+
+module.exports = app;
