@@ -10,10 +10,33 @@ app.get("/notes", (req, res) => {
   // Reads the notes from JSON file
   readFileAsync("db/db.json", "utf8").then(function (data) {
     // Parse data to get an array of objects
-    notesData = JSON.parse(data);
+    notesInput = JSON.parse(data);
     //
-    res.json(notesData);
+    res.json(notesInput);
   });
 });
+
+//Add note 
+app.post("/notes", (req, res) => {
+  readFileAsync("db/db.json", "utf8").then(function (data) {
+    
+    notesInput = JSON.parse(data);
+
+    let newNote = req.body;
+    let currentID = notesInput.length;
+
+    newNote.id = currentID + 1;
+
+    notesInput.push(newNote);
+
+    notesInput = JSON.stringify(notesInput);
+
+    writeFileAsync("db/db.json", notesInput).then(function (data) {
+      console.log("Note Successful");
+    });
+    res.json(notesInput);
+  });
+});
+
 
 module.exports = app;
